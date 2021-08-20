@@ -1,0 +1,44 @@
+div.outer{
+	background-color: #EFF0F1;
+	height: 100vh;
+}
+
+div.card-right{
+	height: 15vh;
+	width: 75%;
+	border: none;
+	background-color: #fff;
+	margin: auto;
+}
+
+h1.head-margin{
+	margin-bottom: 50px;
+}
+
+.but-contain{
+	margin: auto;
+}
+
+div.list-div{
+	background-color: #fff;
+	height: 70vh;
+	overflow-y: scroll;
+}
+.cd-hd-link{
+	display: block;
+}
+
+div.card-top{
+	height: 15%;
+	
+	border: none;
+	background-color: #fff;
+	margin: auto;
+}
+
+div.detail-div{
+	background-color: #fff;
+	height: 70vh;
+	overflow-y: scroll;
+	margin-top: 52px;
+}
