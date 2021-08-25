@@ -55,6 +55,13 @@ $route['signup'] = 'UserController/signupMethod';
 $route['products']='UserController/index';
 $route['login']='UserController/loginMethod';
 $route['logout']='UserController/logout';
+$route['addcategory']='ProductController/addCategory';
+$route['addproduct']='ProductController/addProduct';
+$route['productdetails']='ProductController/productDetails';
+$route['editproduct']='ProductController/editProduct';
+$route['disable']='ProductController/disableProduct';
+$route['enable']='ProductController/enableProduct';
+$route['delete']='ProductController/deleteProduct';
 
 $route['default_controller'] = 'ProductController';
 $route['404_override'] = '';

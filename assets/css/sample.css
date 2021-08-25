@@ -42,3 +42,13 @@ div.detail-div{
 	overflow-y: scroll;
 	margin-top: 52px;
 }
+
+.drp-cat{
+	width: 15%;
+	background-color: #F8F9FA;
+	padding: 6px 3px;
+}
+
+.drp{
+	background-color: #F8F9FA;
+}
