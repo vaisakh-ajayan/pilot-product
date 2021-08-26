@@ -21,22 +21,86 @@ class ProductController extends CI_Controller {
 
 		$this->load->model('ProductModel');
 
+		// $config['base_url'] = 'http://localhost/product_list/products/';
 		// $config['per_page'] = 5;
-		// $config['total_rows']=
+		// $config['total_rows']=$this->ProductModel->totalRows();
+		// $config['num_links'] = 2;
+		// $config['uri_segment'] = 2;
+		// $config['full_tag_open']='<ul class="pagination justify-content-center">';
+		// $config['full_tag_close']='</ul>';
+		// $config['first_link'] = 'First';
+		// $config['first_tag_open'] = '<li class="page-item pg-f">';
+		// $config['first_tag_close'] = '</li>';
+		// $config['last_link'] = 'Last';
+		// $config['last_tag_open'] = '<li class="page-item pg-l">';
+		// $config['last_tag_close'] = '</li>';
+		// $config['next_link'] = '&gt;';
+		// $config['next_tag_open'] = '<li class="page-item pg-n">';
+		// $config['next_tag_close'] = '</li>';
+		// $config['prev_link'] = '&lt;';
+		// $config['prev_tag_open'] = '<li class="page-item pg-p">';
+		// $config['prev_tag_close'] = '</li>';
+		// $config['cur_tag_open'] = '<li class="page-item active pg-c"><a href="#" class="page-link">';
+		// $config['cur_tag_close'] = '</a></li>';
+		// $config['attributes'] = array('class' => 'page-link');
+		// $this->pagination->initialize($config);
+		// // $this->load->library('uri');
+		// $page = $this->uri->segment(2, 0);
+		// $limits=$config['per_page'];
+		// $offset = ($page);
 
-		if (!$this->ProductModel->selectAllProducts()) {
-			$ctv['isProducts']="false";
-		}
-		else{
-			$ctv['allProducts']=$this->ProductModel->selectAllProducts();
-		}
-		if (!$this->ProductModel->getCategory()) {
-			
-		}
-		else{
-			$ctv['categoryValues']=$this->ProductModel->getCategory();
-		}
+		// $ctv['pageLinks']= $this->pagination->create_links();
+
+		
+		// $ctv['allProducts']=$this->ProductModel->selectPaginatedProducts($limits,$offset);
+		
+		
+		$ctv['categoryValues']=$this->ProductModel->getCategory();
+		
 		$this->load->view('main-page',$ctv);
+	}
+
+	public function loads(){
+		// echo 'jncnksd';die;
+		if ($this->input->method(FALSE)=='get' && $this->input->is_ajax_request()) {
+			$this->load->model('ProductModel');
+
+			$config['base_url'] = 'http://localhost/product_list/products/';
+			$config['per_page'] = 5;
+			$config['total_rows']=$this->ProductModel->totalRows();
+			$config['num_links'] = 2;
+			$config['uri_segment'] = 2;
+			$config['full_tag_open']='<ul class="pagination justify-content-center">';
+			$config['full_tag_close']='</ul>';
+			$config['first_link'] = 'First';
+			$config['first_tag_open'] = '<li class="page-item pg-f">';
+			$config['first_tag_close'] = '</li>';
+			$config['last_link'] = 'Last';
+			$config['last_tag_open'] = '<li class="page-item pg-l">';
+			$config['last_tag_close'] = '</li>';
+			$config['next_link'] = '&gt;';
+			$config['next_tag_open'] = '<li class="page-item pg-n">';
+			$config['next_tag_close'] = '</li>';
+			$config['prev_link'] = '&lt;';
+			$config['prev_tag_open'] = '<li class="page-item pg-p">';
+			$config['prev_tag_close'] = '</li>';
+			$config['cur_tag_open'] = '<li class="page-item active pg-c"><a href="#" class="page-link">';
+			$config['cur_tag_close'] = '</a></li>';
+			$config['attributes'] = array('class' => 'page-link');
+			$this->pagination->initialize($config);
+			// $this->load->library('uri');
+			$page = $this->uri->segment(2, 0);
+			$limits=$config['per_page'];
+			$offset = ($page);
+
+			$data['pageLinks']=$this->pagination->create_links();
+			$data['productValues']=$this->ProductModel->selectPaginatedProducts($limits,$offset);
+			// $data['categoryValues']=$this->ProductModel->getCategory();
+			// $data['result']='success';
+			// $data['message']="ajax call";
+			echo json_encode($data);
+
+		}
 	}
 
 	public function addCategory(){
@@ -316,6 +380,18 @@ class ProductController extends CI_Controller {
 		}
 		else{
 			$data['result']="success";
+			echo json_encode($data);
+		}
+	}
+
+	//search
+	public function search(){
+		if ($this->input->post() && $this->input->is_ajax_request()) {
+			$value=$this->input->post('value');
+			$option=$this->input->post('option');
+
+			$data['result']="success";
+			$data['productValues']=$this->ProductModel->searchProduct($value,$option);
 			echo json_encode($data);
 		}
 	}

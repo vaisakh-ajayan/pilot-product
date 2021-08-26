@@ -176,4 +176,102 @@ class ProductModel extends CI_Model{
             return false;
         }
 	}
+
+	public function totalRows(){
+		$query = $this->db->get('products');
+		if ($query->num_rows() > 0) {
+			return $query->num_rows();
+		}
+		else{
+			return FALSE;
+		}
+	}
+
+	public function selectPaginatedProducts($limit,$offset){
+		$this->db->select("*,products.id as product_id, category_table.id as categoryid, category_table.category as category");
+		$this->db->from('products');
+		$this->db->order_by('products.id',"ASC");
+		$this->db->limit($limit,$offset);
+		$this->db->join('category_table', 'products.category_id = category_table.id');
+
+		$query = $this->db->get();
+		if (!empty($query->result_array())) {
+            return $query->result_array();
+        }
+        else{
+            return false;
+        }
+	}
+
+	//search
+	public function searchProduct($value,$option){
+		if ($value=='') {
+			if ($option==0) {
+				$this->db->select("*,products.id as product_id, category_table.id as categoryid, category_table.category as category");
+				$this->db->from('products');
+				$this->db->order_by('products.id',"ASC");
+				$this->db->join('category_table', 'products.category_id = category_table.id');
+
+				$query = $this->db->get();
+				if (!empty($query->result_array())) {
+		            return $query->result_array();
+		        }
+		        else{
+		            return false;
+		        }
+			}
+			else{
+				$this->db->select("*,products.id as product_id, category_table.id as categoryid, category_table.category as category");
+				$this->db->from('products');
+				$this->db->order_by('products.id',"ASC");
+				$this->db->join('category_table', 'products.category_id = category_table.id');
+				$this->db->where('category_id',$option);
+
+				$query = $this->db->get();
+				if (!empty($query->result_array())) {
+		            return $query->result_array();
+		        }
+		        else{
+		            return false;
+		        }
+			}
+		}
+		else{
+			if ($option==0) {
+				$this->db->select("*,products.id as product_id, category_table.id as categoryid, category_table.category as category");
+				$this->db->from('products');
+				$this->db->order_by('products.id',"ASC");
+				$this->db->join('category_table', 'products.category_id = category_table.id');
+				$this->db->like('product_name', $value);
+
+				$query = $this->db->get();
+				if (!empty($query->result_array())) {
+		            return $query->result_array();
+		        }
+		        else{
+		            return false;
+		        }
+			}
+			else{
+				$this->db->select("*,products.id as product_id, category_table.id as categoryid, category_table.category as category");
+				$this->db->from('products');
+				$this->db->order_by('products.id',"ASC");
+				$this->db->join('category_table', 'products.category_id = category_table.id');
+				$this->db->where('category_id',$option);
+				$this->db->like('product_name', $value);
+
+
+				$query = $this->db->get();
+				if (!empty($query->result_array())) {
+		            return $query->result_array();
+		        }
+		        else{
+		            return false;
+		        }
+
+			}
+			
+
+		}
+	}
 }

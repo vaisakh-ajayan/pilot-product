@@ -68,7 +68,7 @@
 							<option value="0">All</option>
 							<?php foreach($categoryValues as $key) {?>
 								<option value="<?php echo $key['id']; ?>"><?php echo $key['category']; ?></option>	
-							<?php } ?> 
+							<?php } ?>
 						</select>
 					</div>
 					<div class="form-group has-white">
@@ -116,7 +116,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<!-- <?php foreach($allProducts as $key) {?>
+												<?php foreach($allProducts as $key) {?>
 													<tr id="<?php echo $key['product_id']; ?>" class="alert" role="alert">
 														<td><strong><?php echo $key['product_name']; ?></strong></td>
 														<td><?php echo $key['category']; ?></td>
@@ -151,7 +151,7 @@
 															</td>
 														<?php } ?>
 													</tr>
-												<?php } ?> -->
+												<?php } ?>
 												
 											</tbody>
 										</table>
@@ -161,8 +161,8 @@
 						</div>
 					</section>
 
-					<div class="pgn-div">
-						
+					<div>
+						<?php echo $pageLinks; ?>
 					</div>
 				</div>
 			</div>
@@ -385,7 +385,7 @@
 			})
 		});
 		//button click view products
-		$('table').on('click','.disp',function(e){
+		$('.disp').click(function(e){
 			e.preventDefault();
 			var id = $(this).attr('vp');
 			$('.category-div').hide();
@@ -418,13 +418,7 @@
 							$('.img-disp').attr('alt',item.product_image);
 							$('.view-pro-name').text(item.product_name);
 							$('.view-desc').text(item.product_description);
-							if (item.product_status==1) {
-								$('.view-status').text('Active');
-							}
-							else{
-								$('.view-status').text('Inactive');
-							}
-							
+							$('.view-status').text(item.product_status);
 							$('.view-date').text(item.date_added);
 						})
 					}
@@ -641,7 +635,7 @@
         });
 
         //edit button click
-        $('table').on('click','.edit',function(e){
+        $('.edit').click(function(e){
         	e.preventDefault();
         	$('.category-div').hide();
         	$('.view-div').hide();
@@ -961,149 +955,23 @@
         	})
         });
 
-        //jquery for loading items on first
-        $(document).ready(function(){
-        	$.ajax({
-        		type:'GET',
-        		dataType:'json',
-        		url:"<?php echo base_url('products'); ?>",
-        		success:function(response){
-        			// console.log(response);
-        			// console.log(response.categoryValues);
-        			// console.log(response.result);
-        			console.log(response.productValues);
-        			// console.log("responsecome");
-        			$('.pgn-div').html(response.pageLinks);
-        			$('tbody').empty();
-        			jQuery.each(response.productValues,function(index,item){
-        				console.log(item);
-						console.log(
-							item.product_id,
-							item.product_name,
-							item.product_description,
-							item.product_status,
-							item.date_added,
-							item.category_id,
-							item.category,
-							item.categoryid
-							);
+        // $(document).ready(function(){
+        // 	$.ajax({
+        // 		type:'GET',
+        // 		url:"<?php echo base_url('loading)'); ?>",
+        // 		success:function(response){
+        // 			if (response.result=='success') {
+        // 				console.log(response.categoryValues);
+        // 				console.log(response.pageLink);
+        // 				console.log(productValues);
+        // 			}
 
-						$('tbody').append('<tr id="'+item.product_id+'" class="alert" role="alert"></tr>');
-
-						var row = $('#'+item.product_id);
-						$('#'+item.product_id).append(
-							'<td><strong>'+item.product_name+'</strong></td>'+
-							'<td>'+item.category+'</td>'+
-							'<td>'+item.date_added+'</td>'
-							);
-
-						var row = $('#'+item.product_id);
-						if (item.product_status=='1') {
-							$('#'+item.product_id).append('<td class="text-success">Active</td>');
-						}
-						else{
-							$('#'+item.product_id).append('<td class="text-danger">Inactive</td>');
-						}
-
-						var row = $('#'+item.product_id);
-						$('#'+item.product_id).append(
-							'<td><a href="" class="disp" vp="'+item.product_id+'"><span><i class="far fa-eye text-info"></i></span></a></td>'+
-							'<td><a href="" class="edit" ep="'+item.product_id+'"><span><i class="far fa-edit"></i></span></a></td>'+
-							'<td><a href="" class="del" dp="'+item.product_id+'" data-toggle="modal" data-target="#myModal1"><span><i class="far fa-trash-alt text-danger"></span></a></td>'
-							);
-						
-						var row = $('#'+item.product_id);
-						if (item.product_status=='1') {
-							$('#'+item.product_id).append('<td><a class="dsb btn btn-sm btn-outline-warning" stb="'+item.product_id+'">Disable</a></td>');
-						}
-						else{
-							$('#'+item.product_id).append('<td><a class="enb btn btn-sm btn-outline-success" stb="'+item.product_id+'">Enable</a></td>');
-						}
-						
-					});
-
-        		},
-        		error:function(response){
-        			alert('an error occured');
-        		}
-        	});
-        })
-
-        //jquery on paginations
-        $(document).ready(function(){
-        	$('.pgn-div').on('click','.page-link',function(e){
-        		e.preventDefault();
-        		var myurl = $(this).attr('href');
-        		console.log(myurl);
-
-        		$.ajax({
-        		type:'GET',
-        		dataType:'json',
-        		url:myurl,
-        		success:function(response){
-        			// console.log(response);
-        			// console.log(response.categoryValues);
-        			// console.log(response.result);
-        			console.log(response.productValues);
-        			// console.log("responsecome");
-        			$('.pgn-div').html(response.pageLinks);
-        			$('tbody').empty();
-        			jQuery.each(response.productValues,function(index,item){
-        				console.log(item);
-						console.log(
-							item.product_id,
-							item.product_name,
-							item.product_description,
-							item.product_status,
-							item.date_added,
-							item.category_id,
-							item.category,
-							item.categoryid
-							);
-
-						$('tbody').append('<tr id="'+item.product_id+'" class="alert" role="alert"></tr>');
-
-						var row = $('#'+item.product_id);
-						$('#'+item.product_id).append(
-							'<td><strong>'+item.product_name+'</strong></td>'+
-							'<td>'+item.category+'</td>'+
-							'<td>'+item.date_added+'</td>'
-							);
-
-						var row = $('#'+item.product_id);
-						if (item.product_status=='1') {
-							$('#'+item.product_id).append('<td class="text-success">Active</td>');
-						}
-						else{
-							$('#'+item.product_id).append('<td class="text-danger">Inactive</td>');
-						}
-
-						var row = $('#'+item.product_id);
-						$('#'+item.product_id).append(
-							'<td><a href="" class="disp" vp="'+item.product_id+'"><span><i class="far fa-eye text-info"></i></span></a></td>'+
-							'<td><a href="" class="edit" ep="'+item.product_id+'"><span><i class="far fa-edit"></i></span></a></td>'+
-							'<td><a href="" class="del" dp="'+item.product_id+'" data-toggle="modal" data-target="#myModal1"><span><i class="far fa-trash-alt text-danger"></span></a></td>'
-							);
-						
-						var row = $('#'+item.product_id);
-						if (item.product_status=='1') {
-							$('#'+item.product_id).append('<td><a class="dsb btn btn-sm btn-outline-warning" stb="'+item.product_id+'">Disable</a></td>');
-						}
-						else{
-							$('#'+item.product_id).append('<td><a class="enb btn btn-sm btn-outline-success" stb="'+item.product_id+'">Enable</a></td>');
-						}
-						
-					});
-
-        		},
-        		error:function(response){
-        			alert('an error occured');
-        		}
-        	});
-        	})
-
-        	
-        })
+        // 		},
+        // 		error:function(response){
+        // 			alert('an error occured');
+        // 		}
+        // 	})
+        // })
 
 
 

@@ -47,3 +47,10 @@ else{
 	<a class="dropdown-item" href="#">Separated Category</a>
 </div>
 
+<ul class="pagination justify-content-center">
+							<li class="page-item pg-f"><a class="page-link" href="#">Previous</a></li>
+							<li class="page-item pg-p"><a class="page-link" href="#">1</a></li>
+							<li class="page-item pg-c"><a class="page-link" href="#">2</a></li>
+							<li class="page-item pg-n"><a class="page-link" href="#">3</a></li>
+							<li class="page-item pg-l"><a class="page-link" href="#">Next</a></li>
+						</ul>
