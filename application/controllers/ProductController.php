@@ -10,7 +10,7 @@ class ProductController extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->library('pagination');
 		if (!$this->session->userdata('email')) {
-			redirect('signup');
+			redirect('login');
 		}
 	}
 
@@ -66,7 +66,7 @@ class ProductController extends CI_Controller {
 			$this->load->model('ProductModel');
 
 			$config['base_url'] = 'http://localhost/product_list/products/';
-			$config['per_page'] = 5;
+			$config['per_page'] = 30;
 			$config['total_rows']=$this->ProductModel->totalRows();
 			$config['num_links'] = 2;
 			$config['uri_segment'] = 2;
@@ -147,10 +147,10 @@ class ProductController extends CI_Controller {
 	//add products from form
 	public function addProduct(){
 		if ($this->input->post() && $this->input->is_ajax_request()) {
-			$this->form_validation->set_rules('productName','productName','required|trim');
-			$this->form_validation->set_rules('productDesc','productDesc','required|trim');
-			$this->form_validation->set_rules('status','status','required|trim');
-			$this->form_validation->set_rules('prodCategory','prodCategory','required|trim');
+			$this->form_validation->set_rules('productName','Product name','required|trim');
+			$this->form_validation->set_rules('productDesc','Product description','required|trim');
+			$this->form_validation->set_rules('status','Status','required|trim');
+			$this->form_validation->set_rules('prodCategory','Product category','required|trim');
 
 			if ($this->form_validation->run()==FALSE) {
 				$data['result']="failed";
@@ -166,18 +166,18 @@ class ProductController extends CI_Controller {
 			else{
 				$this->load->helper('date');
 				$format = "%Y-%m-%d";
-				$product_name=$this->input->post('productName');
-				$product_description=$this->input->post('productDesc');
-				$product_status=(int)$this->input->post('status');
-				$date_added=mdate($format);
-				$category_id=(int)$this->input->post('prodCategory');
+				$productName=$this->input->post('productName');
+				$productDescription=$this->input->post('productDesc');
+				$status=(int)$this->input->post('status');
+				$dateAdded=mdate($format);
+				$productCategory=(int)$this->input->post('prodCategory');
 				
 				$credentials=array(
-					'product_name'=>$product_name,
-					'product_description'=>$product_description,
-					'product_status'=>$product_status,
-					'date_added'=>$date_added,
-					'category_id'=>$category_id
+					'product_name'=>$productName,
+					'product_description'=>$productDescription,
+					'product_status'=>$status,
+					'date_added'=>$dateAdded,
+					'category_id'=>$productCategory
 				);
 
 				//upload file
@@ -225,9 +225,9 @@ class ProductController extends CI_Controller {
 	//product details
 	public function productDetails(){
 		if ($this->input->post() && $this->input->is_ajax_request()) {
-			$product_id=(int)$this->input->post('id');
+			$productId=(int)$this->input->post('id');
 			$credentials=array(
-				'product_id'=>$product_id
+				'product_id'=>$productId
 			);
 
 			$this->load->model('ProductModel');
@@ -246,9 +246,9 @@ class ProductController extends CI_Controller {
 
 	public function editProduct(){
 		if ($this->input->get() && $this->input->is_ajax_request()) {
-			$product_id=(int)$this->input->get('id');
+			$productId=(int)$this->input->get('id');
 			$credentials=array(
-				'product_id'=>$product_id
+				'product_id'=>$productId
 			);
 
 			$this->load->model('ProductModel');
@@ -264,10 +264,10 @@ class ProductController extends CI_Controller {
 			}
 		}
 		else if ($this->input->post() && $this->input->is_ajax_request()) {
-			$this->form_validation->set_rules('productName','productName','required|trim');
-			$this->form_validation->set_rules('productDesc','productDesc','required|trim');
+			$this->form_validation->set_rules('productName','product name','required|trim');
+			$this->form_validation->set_rules('productDesc','product description','required|trim');
 			$this->form_validation->set_rules('status','status','required|trim');
-			$this->form_validation->set_rules('prodCategory','prodCategory','required|trim');
+			$this->form_validation->set_rules('prodCategory','product category','required|trim');
 
 			if ($this->form_validation->run()==FALSE) {
 				$data['result']="failed";
@@ -281,17 +281,17 @@ class ProductController extends CI_Controller {
 			}
 			else{
 				$id=$this->input->post('productId');
-				$product_name=$this->input->post('productName');
-				$product_description=$this->input->post('productDesc');
-				$product_status=(int)$this->input->post('status');
-				$category_id=(int)$this->input->post('prodCategory');
+				$productName=$this->input->post('productName');
+				$productDescription=$this->input->post('productDesc');
+				$status=(int)$this->input->post('status');
+				$productCategory=(int)$this->input->post('prodCategory');
 
 				$credentials=array(
 					'id'=>$id,
-					'product_name'=>$product_name,
-					'product_description'=>$product_description,
-					'product_status'=>$product_status,
-					'category_id'=>$category_id
+					'product_name'=>$productName,
+					'product_description'=>$productDescription,
+					'product_status'=>$status,
+					'category_id'=>$productCategory
 				);
 
 				$single=array(
@@ -317,12 +317,12 @@ class ProductController extends CI_Controller {
 	//disable product
 	public function disableProduct(){
 		if ($this->input->post() && $this->input->is_ajax_request()) {
-			$product_id=$this->input->post('productId');
-			$product_status=0;
+			$productId=$this->input->post('productId');
+			$productStatus=0;
 
 			$credentials=array(
-				'product_id'=>$product_id,
-				'product_status'=>$product_status
+				'product_id'=>$productId,
+				'product_status'=>$productStatus
 			);
 
 			$this->load->model('ProductModel');
@@ -341,12 +341,12 @@ class ProductController extends CI_Controller {
 	//enable product
 	public function enableProduct(){
 		if ($this->input->post() && $this->input->is_ajax_request()) {
-			$product_id=$this->input->post('productId');
-			$product_status=1;
+			$productId=$this->input->post('productId');
+			$productStatus=1;
 
 			$credentials=array(
-				'product_id'=>$product_id,
-				'product_status'=>$product_status
+				'product_id'=>$productId,
+				'product_status'=>$productStatus
 			);
 
 			$this->load->model('ProductModel');
@@ -366,9 +366,9 @@ class ProductController extends CI_Controller {
 	//delete product
 	public function deleteProduct(){
 		if ($this->input->post() && $this->input->is_ajax_request()) {
-			$product_id=$this->input->post('productId');
+			$productId=$this->input->post('productId');
 			$credentials=array(
-				'product_id'=>$product_id
+				'product_id'=>$productId
 			);
 		}
 

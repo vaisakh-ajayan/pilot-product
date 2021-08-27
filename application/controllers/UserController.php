@@ -11,9 +11,9 @@ class UserController extends CI_Controller{
 
 	public function signupMethod(){
 		if ($this->input->post()) {
-			$this->form_validation->set_rules('email', 'email','required|trim|valid_email');
-        	$this->form_validation->set_rules('password', 'password','required|trim|min_length[4]');
-        	$this->form_validation->set_rules('re_password', 're_pass','required|trim|min_length[4]');
+			$this->form_validation->set_rules('email', 'Email','required|trim|valid_email');
+        	$this->form_validation->set_rules('password', 'Password','required|trim|min_length[4]');
+        	$this->form_validation->set_rules('re_password', 'Password retype','required|trim|min_length[4]');
 
         	if ($this->form_validation->run()==FALSE) {
 	        	$this->load->view('signup');
@@ -61,8 +61,8 @@ class UserController extends CI_Controller{
 	//login
 	public function loginMethod(){
 		if ($this->input->post()) {
-			$this->form_validation->set_rules('email', 'email','required|trim|valid_email');
-        	$this->form_validation->set_rules('password', 'password','required|trim|min_length[4]');
+			$this->form_validation->set_rules('email', 'Email','required|trim|valid_email');
+        	$this->form_validation->set_rules('password', 'Password','required|trim|min_length[4]');
 			if ($this->form_validation->run()==FALSE) {
 	        	$this->load->view('login');
 	        }
